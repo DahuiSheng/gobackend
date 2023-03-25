@@ -1,0 +1,22 @@
+version: "3.6"
+
+services:
+  db:
+    container_name: database
+    image: postgres:14
+    tty: true
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DB_OWNER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - type: volume
+        source: postgresql
+        target: /var/lib/postgresql
+      - type: bind
+        source: initdb
+        target: /docker-entrypoint-initdb.d
+volumes:
+  postgresql:
+    name: postgresql
