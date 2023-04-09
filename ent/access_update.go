@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -27,6 +28,60 @@ func (au *AccessUpdate) Where(ps ...predicate.Access) *AccessUpdate {
 	return au
 }
 
+// SetUpdateTime sets the "update_time" field.
+func (au *AccessUpdate) SetUpdateTime(t time.Time) *AccessUpdate {
+	au.mutation.SetUpdateTime(t)
+	return au
+}
+
+// SetName sets the "name" field.
+func (au *AccessUpdate) SetName(s string) *AccessUpdate {
+	au.mutation.SetName(s)
+	return au
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (au *AccessUpdate) SetNillableName(s *string) *AccessUpdate {
+	if s != nil {
+		au.SetName(*s)
+	}
+	return au
+}
+
+// SetCheckIn sets the "check_in" field.
+func (au *AccessUpdate) SetCheckIn(t time.Time) *AccessUpdate {
+	au.mutation.SetCheckIn(t)
+	return au
+}
+
+// SetNillableCheckIn sets the "check_in" field if the given value is not nil.
+func (au *AccessUpdate) SetNillableCheckIn(t *time.Time) *AccessUpdate {
+	if t != nil {
+		au.SetCheckIn(*t)
+	}
+	return au
+}
+
+// SetCheckOut sets the "check_out" field.
+func (au *AccessUpdate) SetCheckOut(t time.Time) *AccessUpdate {
+	au.mutation.SetCheckOut(t)
+	return au
+}
+
+// SetNillableCheckOut sets the "check_out" field if the given value is not nil.
+func (au *AccessUpdate) SetNillableCheckOut(t *time.Time) *AccessUpdate {
+	if t != nil {
+		au.SetCheckOut(*t)
+	}
+	return au
+}
+
+// ClearCheckOut clears the value of the "check_out" field.
+func (au *AccessUpdate) ClearCheckOut() *AccessUpdate {
+	au.mutation.ClearCheckOut()
+	return au
+}
+
 // Mutation returns the AccessMutation object of the builder.
 func (au *AccessUpdate) Mutation() *AccessMutation {
 	return au.mutation
@@ -34,6 +89,7 @@ func (au *AccessUpdate) Mutation() *AccessMutation {
 
 // Save executes the query and returns the number of nodes affected by the update operation.
 func (au *AccessUpdate) Save(ctx context.Context) (int, error) {
+	au.defaults()
 	return withHooks[int, AccessMutation](ctx, au.sqlSave, au.mutation, au.hooks)
 }
 
@@ -59,7 +115,28 @@ func (au *AccessUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (au *AccessUpdate) defaults() {
+	if _, ok := au.mutation.UpdateTime(); !ok {
+		v := access.UpdateDefaultUpdateTime()
+		au.mutation.SetUpdateTime(v)
+	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (au *AccessUpdate) check() error {
+	if v, ok := au.mutation.Name(); ok {
+		if err := access.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Access.name": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (au *AccessUpdate) sqlSave(ctx context.Context) (n int, err error) {
+	if err := au.check(); err != nil {
+		return n, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(access.Table, access.Columns, sqlgraph.NewFieldSpec(access.FieldID, field.TypeInt))
 	if ps := au.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -67,6 +144,21 @@ func (au *AccessUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := au.mutation.UpdateTime(); ok {
+		_spec.SetField(access.FieldUpdateTime, field.TypeTime, value)
+	}
+	if value, ok := au.mutation.Name(); ok {
+		_spec.SetField(access.FieldName, field.TypeString, value)
+	}
+	if value, ok := au.mutation.CheckIn(); ok {
+		_spec.SetField(access.FieldCheckIn, field.TypeTime, value)
+	}
+	if value, ok := au.mutation.CheckOut(); ok {
+		_spec.SetField(access.FieldCheckOut, field.TypeTime, value)
+	}
+	if au.mutation.CheckOutCleared() {
+		_spec.ClearField(access.FieldCheckOut, field.TypeTime)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -86,6 +178,60 @@ type AccessUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *AccessMutation
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (auo *AccessUpdateOne) SetUpdateTime(t time.Time) *AccessUpdateOne {
+	auo.mutation.SetUpdateTime(t)
+	return auo
+}
+
+// SetName sets the "name" field.
+func (auo *AccessUpdateOne) SetName(s string) *AccessUpdateOne {
+	auo.mutation.SetName(s)
+	return auo
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (auo *AccessUpdateOne) SetNillableName(s *string) *AccessUpdateOne {
+	if s != nil {
+		auo.SetName(*s)
+	}
+	return auo
+}
+
+// SetCheckIn sets the "check_in" field.
+func (auo *AccessUpdateOne) SetCheckIn(t time.Time) *AccessUpdateOne {
+	auo.mutation.SetCheckIn(t)
+	return auo
+}
+
+// SetNillableCheckIn sets the "check_in" field if the given value is not nil.
+func (auo *AccessUpdateOne) SetNillableCheckIn(t *time.Time) *AccessUpdateOne {
+	if t != nil {
+		auo.SetCheckIn(*t)
+	}
+	return auo
+}
+
+// SetCheckOut sets the "check_out" field.
+func (auo *AccessUpdateOne) SetCheckOut(t time.Time) *AccessUpdateOne {
+	auo.mutation.SetCheckOut(t)
+	return auo
+}
+
+// SetNillableCheckOut sets the "check_out" field if the given value is not nil.
+func (auo *AccessUpdateOne) SetNillableCheckOut(t *time.Time) *AccessUpdateOne {
+	if t != nil {
+		auo.SetCheckOut(*t)
+	}
+	return auo
+}
+
+// ClearCheckOut clears the value of the "check_out" field.
+func (auo *AccessUpdateOne) ClearCheckOut() *AccessUpdateOne {
+	auo.mutation.ClearCheckOut()
+	return auo
 }
 
 // Mutation returns the AccessMutation object of the builder.
@@ -108,6 +254,7 @@ func (auo *AccessUpdateOne) Select(field string, fields ...string) *AccessUpdate
 
 // Save executes the query and returns the updated Access entity.
 func (auo *AccessUpdateOne) Save(ctx context.Context) (*Access, error) {
+	auo.defaults()
 	return withHooks[*Access, AccessMutation](ctx, auo.sqlSave, auo.mutation, auo.hooks)
 }
 
@@ -133,7 +280,28 @@ func (auo *AccessUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (auo *AccessUpdateOne) defaults() {
+	if _, ok := auo.mutation.UpdateTime(); !ok {
+		v := access.UpdateDefaultUpdateTime()
+		auo.mutation.SetUpdateTime(v)
+	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (auo *AccessUpdateOne) check() error {
+	if v, ok := auo.mutation.Name(); ok {
+		if err := access.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Access.name": %w`, err)}
+		}
+	}
+	return nil
+}
+
 func (auo *AccessUpdateOne) sqlSave(ctx context.Context) (_node *Access, err error) {
+	if err := auo.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(access.Table, access.Columns, sqlgraph.NewFieldSpec(access.FieldID, field.TypeInt))
 	id, ok := auo.mutation.ID()
 	if !ok {
@@ -158,6 +326,21 @@ func (auo *AccessUpdateOne) sqlSave(ctx context.Context) (_node *Access, err err
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := auo.mutation.UpdateTime(); ok {
+		_spec.SetField(access.FieldUpdateTime, field.TypeTime, value)
+	}
+	if value, ok := auo.mutation.Name(); ok {
+		_spec.SetField(access.FieldName, field.TypeString, value)
+	}
+	if value, ok := auo.mutation.CheckIn(); ok {
+		_spec.SetField(access.FieldCheckIn, field.TypeTime, value)
+	}
+	if value, ok := auo.mutation.CheckOut(); ok {
+		_spec.SetField(access.FieldCheckOut, field.TypeTime, value)
+	}
+	if auo.mutation.CheckOutCleared() {
+		_spec.ClearField(access.FieldCheckOut, field.TypeTime)
 	}
 	_node = &Access{config: auo.config}
 	_spec.Assign = _node.assignValues

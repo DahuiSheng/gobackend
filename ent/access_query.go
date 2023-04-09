@@ -257,6 +257,18 @@ func (aq *AccessQuery) Clone() *AccessQuery {
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		CreateTime time.Time `json:"create_time,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.Access.Query().
+//		GroupBy(access.FieldCreateTime).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
 func (aq *AccessQuery) GroupBy(field string, fields ...string) *AccessGroupBy {
 	aq.ctx.Fields = append([]string{field}, fields...)
 	grbuild := &AccessGroupBy{build: aq}
@@ -268,6 +280,16 @@ func (aq *AccessQuery) GroupBy(field string, fields ...string) *AccessGroupBy {
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		CreateTime time.Time `json:"create_time,omitempty"`
+//	}
+//
+//	client.Access.Query().
+//		Select(access.FieldCreateTime).
+//		Scan(ctx, &v)
 func (aq *AccessQuery) Select(fields ...string) *AccessSelect {
 	aq.ctx.Fields = append(aq.ctx.Fields, fields...)
 	sbuild := &AccessSelect{AccessQuery: aq}

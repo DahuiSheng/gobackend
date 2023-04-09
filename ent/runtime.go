@@ -2,8 +2,54 @@
 
 package ent
 
+import (
+	"time"
+
+	"github.com/DahuiSheng/gobackend/ent/access"
+	"github.com/DahuiSheng/gobackend/ent/schema"
+)
+
 // The init function reads all schema descriptors with runtime code
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	accessMixin := schema.Access{}.Mixin()
+	accessMixinFields0 := accessMixin[0].Fields()
+	_ = accessMixinFields0
+	accessFields := schema.Access{}.Fields()
+	_ = accessFields
+	// accessDescCreateTime is the schema descriptor for create_time field.
+	accessDescCreateTime := accessMixinFields0[0].Descriptor()
+	// access.DefaultCreateTime holds the default value on creation for the create_time field.
+	access.DefaultCreateTime = accessDescCreateTime.Default.(func() time.Time)
+	// accessDescUpdateTime is the schema descriptor for update_time field.
+	accessDescUpdateTime := accessMixinFields0[1].Descriptor()
+	// access.DefaultUpdateTime holds the default value on creation for the update_time field.
+	access.DefaultUpdateTime = accessDescUpdateTime.Default.(func() time.Time)
+	// access.UpdateDefaultUpdateTime holds the default value on update for the update_time field.
+	access.UpdateDefaultUpdateTime = accessDescUpdateTime.UpdateDefault.(func() time.Time)
+	// accessDescName is the schema descriptor for name field.
+	accessDescName := accessFields[0].Descriptor()
+	// access.DefaultName holds the default value on creation for the name field.
+	access.DefaultName = accessDescName.Default.(string)
+	// access.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	access.NameValidator = func() func(string) error {
+		validators := accessDescName.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(name string) error {
+			for _, fn := range fns {
+				if err := fn(name); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// accessDescCheckIn is the schema descriptor for check_in field.
+	accessDescCheckIn := accessFields[1].Descriptor()
+	// access.DefaultCheckIn holds the default value on creation for the check_in field.
+	access.DefaultCheckIn = accessDescCheckIn.Default.(time.Time)
 }

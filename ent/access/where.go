@@ -3,6 +3,8 @@
 package access
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
 	"github.com/DahuiSheng/gobackend/ent/predicate"
 )
@@ -50,6 +52,266 @@ func IDLT(id int) predicate.Access {
 // IDLTE applies the LTE predicate on the ID field.
 func IDLTE(id int) predicate.Access {
 	return predicate.Access(sql.FieldLTE(FieldID, id))
+}
+
+// CreateTime applies equality check predicate on the "create_time" field. It's identical to CreateTimeEQ.
+func CreateTime(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldCreateTime, v))
+}
+
+// UpdateTime applies equality check predicate on the "update_time" field. It's identical to UpdateTimeEQ.
+func UpdateTime(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldUpdateTime, v))
+}
+
+// Name applies equality check predicate on the "name" field. It's identical to NameEQ.
+func Name(v string) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldName, v))
+}
+
+// CheckIn applies equality check predicate on the "check_in" field. It's identical to CheckInEQ.
+func CheckIn(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldCheckIn, v))
+}
+
+// CheckOut applies equality check predicate on the "check_out" field. It's identical to CheckOutEQ.
+func CheckOut(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldCheckOut, v))
+}
+
+// CreateTimeEQ applies the EQ predicate on the "create_time" field.
+func CreateTimeEQ(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldCreateTime, v))
+}
+
+// CreateTimeNEQ applies the NEQ predicate on the "create_time" field.
+func CreateTimeNEQ(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldNEQ(FieldCreateTime, v))
+}
+
+// CreateTimeIn applies the In predicate on the "create_time" field.
+func CreateTimeIn(vs ...time.Time) predicate.Access {
+	return predicate.Access(sql.FieldIn(FieldCreateTime, vs...))
+}
+
+// CreateTimeNotIn applies the NotIn predicate on the "create_time" field.
+func CreateTimeNotIn(vs ...time.Time) predicate.Access {
+	return predicate.Access(sql.FieldNotIn(FieldCreateTime, vs...))
+}
+
+// CreateTimeGT applies the GT predicate on the "create_time" field.
+func CreateTimeGT(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldGT(FieldCreateTime, v))
+}
+
+// CreateTimeGTE applies the GTE predicate on the "create_time" field.
+func CreateTimeGTE(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldGTE(FieldCreateTime, v))
+}
+
+// CreateTimeLT applies the LT predicate on the "create_time" field.
+func CreateTimeLT(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldLT(FieldCreateTime, v))
+}
+
+// CreateTimeLTE applies the LTE predicate on the "create_time" field.
+func CreateTimeLTE(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldLTE(FieldCreateTime, v))
+}
+
+// UpdateTimeEQ applies the EQ predicate on the "update_time" field.
+func UpdateTimeEQ(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldUpdateTime, v))
+}
+
+// UpdateTimeNEQ applies the NEQ predicate on the "update_time" field.
+func UpdateTimeNEQ(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldNEQ(FieldUpdateTime, v))
+}
+
+// UpdateTimeIn applies the In predicate on the "update_time" field.
+func UpdateTimeIn(vs ...time.Time) predicate.Access {
+	return predicate.Access(sql.FieldIn(FieldUpdateTime, vs...))
+}
+
+// UpdateTimeNotIn applies the NotIn predicate on the "update_time" field.
+func UpdateTimeNotIn(vs ...time.Time) predicate.Access {
+	return predicate.Access(sql.FieldNotIn(FieldUpdateTime, vs...))
+}
+
+// UpdateTimeGT applies the GT predicate on the "update_time" field.
+func UpdateTimeGT(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldGT(FieldUpdateTime, v))
+}
+
+// UpdateTimeGTE applies the GTE predicate on the "update_time" field.
+func UpdateTimeGTE(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldGTE(FieldUpdateTime, v))
+}
+
+// UpdateTimeLT applies the LT predicate on the "update_time" field.
+func UpdateTimeLT(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldLT(FieldUpdateTime, v))
+}
+
+// UpdateTimeLTE applies the LTE predicate on the "update_time" field.
+func UpdateTimeLTE(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldLTE(FieldUpdateTime, v))
+}
+
+// NameEQ applies the EQ predicate on the "name" field.
+func NameEQ(v string) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldName, v))
+}
+
+// NameNEQ applies the NEQ predicate on the "name" field.
+func NameNEQ(v string) predicate.Access {
+	return predicate.Access(sql.FieldNEQ(FieldName, v))
+}
+
+// NameIn applies the In predicate on the "name" field.
+func NameIn(vs ...string) predicate.Access {
+	return predicate.Access(sql.FieldIn(FieldName, vs...))
+}
+
+// NameNotIn applies the NotIn predicate on the "name" field.
+func NameNotIn(vs ...string) predicate.Access {
+	return predicate.Access(sql.FieldNotIn(FieldName, vs...))
+}
+
+// NameGT applies the GT predicate on the "name" field.
+func NameGT(v string) predicate.Access {
+	return predicate.Access(sql.FieldGT(FieldName, v))
+}
+
+// NameGTE applies the GTE predicate on the "name" field.
+func NameGTE(v string) predicate.Access {
+	return predicate.Access(sql.FieldGTE(FieldName, v))
+}
+
+// NameLT applies the LT predicate on the "name" field.
+func NameLT(v string) predicate.Access {
+	return predicate.Access(sql.FieldLT(FieldName, v))
+}
+
+// NameLTE applies the LTE predicate on the "name" field.
+func NameLTE(v string) predicate.Access {
+	return predicate.Access(sql.FieldLTE(FieldName, v))
+}
+
+// NameContains applies the Contains predicate on the "name" field.
+func NameContains(v string) predicate.Access {
+	return predicate.Access(sql.FieldContains(FieldName, v))
+}
+
+// NameHasPrefix applies the HasPrefix predicate on the "name" field.
+func NameHasPrefix(v string) predicate.Access {
+	return predicate.Access(sql.FieldHasPrefix(FieldName, v))
+}
+
+// NameHasSuffix applies the HasSuffix predicate on the "name" field.
+func NameHasSuffix(v string) predicate.Access {
+	return predicate.Access(sql.FieldHasSuffix(FieldName, v))
+}
+
+// NameEqualFold applies the EqualFold predicate on the "name" field.
+func NameEqualFold(v string) predicate.Access {
+	return predicate.Access(sql.FieldEqualFold(FieldName, v))
+}
+
+// NameContainsFold applies the ContainsFold predicate on the "name" field.
+func NameContainsFold(v string) predicate.Access {
+	return predicate.Access(sql.FieldContainsFold(FieldName, v))
+}
+
+// CheckInEQ applies the EQ predicate on the "check_in" field.
+func CheckInEQ(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldCheckIn, v))
+}
+
+// CheckInNEQ applies the NEQ predicate on the "check_in" field.
+func CheckInNEQ(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldNEQ(FieldCheckIn, v))
+}
+
+// CheckInIn applies the In predicate on the "check_in" field.
+func CheckInIn(vs ...time.Time) predicate.Access {
+	return predicate.Access(sql.FieldIn(FieldCheckIn, vs...))
+}
+
+// CheckInNotIn applies the NotIn predicate on the "check_in" field.
+func CheckInNotIn(vs ...time.Time) predicate.Access {
+	return predicate.Access(sql.FieldNotIn(FieldCheckIn, vs...))
+}
+
+// CheckInGT applies the GT predicate on the "check_in" field.
+func CheckInGT(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldGT(FieldCheckIn, v))
+}
+
+// CheckInGTE applies the GTE predicate on the "check_in" field.
+func CheckInGTE(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldGTE(FieldCheckIn, v))
+}
+
+// CheckInLT applies the LT predicate on the "check_in" field.
+func CheckInLT(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldLT(FieldCheckIn, v))
+}
+
+// CheckInLTE applies the LTE predicate on the "check_in" field.
+func CheckInLTE(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldLTE(FieldCheckIn, v))
+}
+
+// CheckOutEQ applies the EQ predicate on the "check_out" field.
+func CheckOutEQ(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldEQ(FieldCheckOut, v))
+}
+
+// CheckOutNEQ applies the NEQ predicate on the "check_out" field.
+func CheckOutNEQ(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldNEQ(FieldCheckOut, v))
+}
+
+// CheckOutIn applies the In predicate on the "check_out" field.
+func CheckOutIn(vs ...time.Time) predicate.Access {
+	return predicate.Access(sql.FieldIn(FieldCheckOut, vs...))
+}
+
+// CheckOutNotIn applies the NotIn predicate on the "check_out" field.
+func CheckOutNotIn(vs ...time.Time) predicate.Access {
+	return predicate.Access(sql.FieldNotIn(FieldCheckOut, vs...))
+}
+
+// CheckOutGT applies the GT predicate on the "check_out" field.
+func CheckOutGT(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldGT(FieldCheckOut, v))
+}
+
+// CheckOutGTE applies the GTE predicate on the "check_out" field.
+func CheckOutGTE(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldGTE(FieldCheckOut, v))
+}
+
+// CheckOutLT applies the LT predicate on the "check_out" field.
+func CheckOutLT(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldLT(FieldCheckOut, v))
+}
+
+// CheckOutLTE applies the LTE predicate on the "check_out" field.
+func CheckOutLTE(v time.Time) predicate.Access {
+	return predicate.Access(sql.FieldLTE(FieldCheckOut, v))
+}
+
+// CheckOutIsNil applies the IsNil predicate on the "check_out" field.
+func CheckOutIsNil() predicate.Access {
+	return predicate.Access(sql.FieldIsNull(FieldCheckOut))
+}
+
+// CheckOutNotNil applies the NotNil predicate on the "check_out" field.
+func CheckOutNotNil() predicate.Access {
+	return predicate.Access(sql.FieldNotNull(FieldCheckOut))
 }
 
 // And groups predicates with the AND operator between them.

@@ -4,7 +4,9 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -18,6 +20,76 @@ type AccessCreate struct {
 	hooks    []Hook
 }
 
+// SetCreateTime sets the "create_time" field.
+func (ac *AccessCreate) SetCreateTime(t time.Time) *AccessCreate {
+	ac.mutation.SetCreateTime(t)
+	return ac
+}
+
+// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
+func (ac *AccessCreate) SetNillableCreateTime(t *time.Time) *AccessCreate {
+	if t != nil {
+		ac.SetCreateTime(*t)
+	}
+	return ac
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (ac *AccessCreate) SetUpdateTime(t time.Time) *AccessCreate {
+	ac.mutation.SetUpdateTime(t)
+	return ac
+}
+
+// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
+func (ac *AccessCreate) SetNillableUpdateTime(t *time.Time) *AccessCreate {
+	if t != nil {
+		ac.SetUpdateTime(*t)
+	}
+	return ac
+}
+
+// SetName sets the "name" field.
+func (ac *AccessCreate) SetName(s string) *AccessCreate {
+	ac.mutation.SetName(s)
+	return ac
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (ac *AccessCreate) SetNillableName(s *string) *AccessCreate {
+	if s != nil {
+		ac.SetName(*s)
+	}
+	return ac
+}
+
+// SetCheckIn sets the "check_in" field.
+func (ac *AccessCreate) SetCheckIn(t time.Time) *AccessCreate {
+	ac.mutation.SetCheckIn(t)
+	return ac
+}
+
+// SetNillableCheckIn sets the "check_in" field if the given value is not nil.
+func (ac *AccessCreate) SetNillableCheckIn(t *time.Time) *AccessCreate {
+	if t != nil {
+		ac.SetCheckIn(*t)
+	}
+	return ac
+}
+
+// SetCheckOut sets the "check_out" field.
+func (ac *AccessCreate) SetCheckOut(t time.Time) *AccessCreate {
+	ac.mutation.SetCheckOut(t)
+	return ac
+}
+
+// SetNillableCheckOut sets the "check_out" field if the given value is not nil.
+func (ac *AccessCreate) SetNillableCheckOut(t *time.Time) *AccessCreate {
+	if t != nil {
+		ac.SetCheckOut(*t)
+	}
+	return ac
+}
+
 // Mutation returns the AccessMutation object of the builder.
 func (ac *AccessCreate) Mutation() *AccessMutation {
 	return ac.mutation
@@ -25,6 +97,7 @@ func (ac *AccessCreate) Mutation() *AccessMutation {
 
 // Save creates the Access in the database.
 func (ac *AccessCreate) Save(ctx context.Context) (*Access, error) {
+	ac.defaults()
 	return withHooks[*Access, AccessMutation](ctx, ac.sqlSave, ac.mutation, ac.hooks)
 }
 
@@ -50,8 +123,45 @@ func (ac *AccessCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (ac *AccessCreate) defaults() {
+	if _, ok := ac.mutation.CreateTime(); !ok {
+		v := access.DefaultCreateTime()
+		ac.mutation.SetCreateTime(v)
+	}
+	if _, ok := ac.mutation.UpdateTime(); !ok {
+		v := access.DefaultUpdateTime()
+		ac.mutation.SetUpdateTime(v)
+	}
+	if _, ok := ac.mutation.Name(); !ok {
+		v := access.DefaultName
+		ac.mutation.SetName(v)
+	}
+	if _, ok := ac.mutation.CheckIn(); !ok {
+		v := access.DefaultCheckIn
+		ac.mutation.SetCheckIn(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (ac *AccessCreate) check() error {
+	if _, ok := ac.mutation.CreateTime(); !ok {
+		return &ValidationError{Name: "create_time", err: errors.New(`ent: missing required field "Access.create_time"`)}
+	}
+	if _, ok := ac.mutation.UpdateTime(); !ok {
+		return &ValidationError{Name: "update_time", err: errors.New(`ent: missing required field "Access.update_time"`)}
+	}
+	if _, ok := ac.mutation.Name(); !ok {
+		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Access.name"`)}
+	}
+	if v, ok := ac.mutation.Name(); ok {
+		if err := access.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Access.name": %w`, err)}
+		}
+	}
+	if _, ok := ac.mutation.CheckIn(); !ok {
+		return &ValidationError{Name: "check_in", err: errors.New(`ent: missing required field "Access.check_in"`)}
+	}
 	return nil
 }
 
@@ -78,6 +188,26 @@ func (ac *AccessCreate) createSpec() (*Access, *sqlgraph.CreateSpec) {
 		_node = &Access{config: ac.config}
 		_spec = sqlgraph.NewCreateSpec(access.Table, sqlgraph.NewFieldSpec(access.FieldID, field.TypeInt))
 	)
+	if value, ok := ac.mutation.CreateTime(); ok {
+		_spec.SetField(access.FieldCreateTime, field.TypeTime, value)
+		_node.CreateTime = value
+	}
+	if value, ok := ac.mutation.UpdateTime(); ok {
+		_spec.SetField(access.FieldUpdateTime, field.TypeTime, value)
+		_node.UpdateTime = value
+	}
+	if value, ok := ac.mutation.Name(); ok {
+		_spec.SetField(access.FieldName, field.TypeString, value)
+		_node.Name = value
+	}
+	if value, ok := ac.mutation.CheckIn(); ok {
+		_spec.SetField(access.FieldCheckIn, field.TypeTime, value)
+		_node.CheckIn = value
+	}
+	if value, ok := ac.mutation.CheckOut(); ok {
+		_spec.SetField(access.FieldCheckOut, field.TypeTime, value)
+		_node.CheckOut = &value
+	}
 	return _node, _spec
 }
 
@@ -95,6 +225,7 @@ func (acb *AccessCreateBulk) Save(ctx context.Context) ([]*Access, error) {
 	for i := range acb.builders {
 		func(i int, root context.Context) {
 			builder := acb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*AccessMutation)
 				if !ok {

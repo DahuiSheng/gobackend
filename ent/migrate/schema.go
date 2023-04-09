@@ -11,6 +11,11 @@ var (
 	// AccessesColumns holds the columns for the "accesses" table.
 	AccessesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "create_time", Type: field.TypeTime},
+		{Name: "update_time", Type: field.TypeTime},
+		{Name: "name", Type: field.TypeString, Size: 25, Default: "unknown"},
+		{Name: "check_in", Type: field.TypeTime},
+		{Name: "check_out", Type: field.TypeTime, Nullable: true},
 	}
 	// AccessesTable holds the schema information for the "accesses" table.
 	AccessesTable = &schema.Table{

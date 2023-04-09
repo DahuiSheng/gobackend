@@ -7,9 +7,11 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/DahuiSheng/gobackend/ent/access"
 	"github.com/DahuiSheng/gobackend/ent/predicate"
 )
 
@@ -31,6 +33,11 @@ type AccessMutation struct {
 	op            Op
 	typ           string
 	id            *int
+	create_time   *time.Time
+	update_time   *time.Time
+	name          *string
+	check_in      *time.Time
+	check_out     *time.Time
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Access, error)
@@ -135,6 +142,199 @@ func (m *AccessMutation) IDs(ctx context.Context) ([]int, error) {
 	}
 }
 
+// SetCreateTime sets the "create_time" field.
+func (m *AccessMutation) SetCreateTime(t time.Time) {
+	m.create_time = &t
+}
+
+// CreateTime returns the value of the "create_time" field in the mutation.
+func (m *AccessMutation) CreateTime() (r time.Time, exists bool) {
+	v := m.create_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateTime returns the old "create_time" field's value of the Access entity.
+// If the Access object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AccessMutation) OldCreateTime(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateTime: %w", err)
+	}
+	return oldValue.CreateTime, nil
+}
+
+// ResetCreateTime resets all changes to the "create_time" field.
+func (m *AccessMutation) ResetCreateTime() {
+	m.create_time = nil
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (m *AccessMutation) SetUpdateTime(t time.Time) {
+	m.update_time = &t
+}
+
+// UpdateTime returns the value of the "update_time" field in the mutation.
+func (m *AccessMutation) UpdateTime() (r time.Time, exists bool) {
+	v := m.update_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateTime returns the old "update_time" field's value of the Access entity.
+// If the Access object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AccessMutation) OldUpdateTime(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateTime: %w", err)
+	}
+	return oldValue.UpdateTime, nil
+}
+
+// ResetUpdateTime resets all changes to the "update_time" field.
+func (m *AccessMutation) ResetUpdateTime() {
+	m.update_time = nil
+}
+
+// SetName sets the "name" field.
+func (m *AccessMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *AccessMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the Access entity.
+// If the Access object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AccessMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *AccessMutation) ResetName() {
+	m.name = nil
+}
+
+// SetCheckIn sets the "check_in" field.
+func (m *AccessMutation) SetCheckIn(t time.Time) {
+	m.check_in = &t
+}
+
+// CheckIn returns the value of the "check_in" field in the mutation.
+func (m *AccessMutation) CheckIn() (r time.Time, exists bool) {
+	v := m.check_in
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCheckIn returns the old "check_in" field's value of the Access entity.
+// If the Access object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AccessMutation) OldCheckIn(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCheckIn is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCheckIn requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCheckIn: %w", err)
+	}
+	return oldValue.CheckIn, nil
+}
+
+// ResetCheckIn resets all changes to the "check_in" field.
+func (m *AccessMutation) ResetCheckIn() {
+	m.check_in = nil
+}
+
+// SetCheckOut sets the "check_out" field.
+func (m *AccessMutation) SetCheckOut(t time.Time) {
+	m.check_out = &t
+}
+
+// CheckOut returns the value of the "check_out" field in the mutation.
+func (m *AccessMutation) CheckOut() (r time.Time, exists bool) {
+	v := m.check_out
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCheckOut returns the old "check_out" field's value of the Access entity.
+// If the Access object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AccessMutation) OldCheckOut(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCheckOut is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCheckOut requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCheckOut: %w", err)
+	}
+	return oldValue.CheckOut, nil
+}
+
+// ClearCheckOut clears the value of the "check_out" field.
+func (m *AccessMutation) ClearCheckOut() {
+	m.check_out = nil
+	m.clearedFields[access.FieldCheckOut] = struct{}{}
+}
+
+// CheckOutCleared returns if the "check_out" field was cleared in this mutation.
+func (m *AccessMutation) CheckOutCleared() bool {
+	_, ok := m.clearedFields[access.FieldCheckOut]
+	return ok
+}
+
+// ResetCheckOut resets all changes to the "check_out" field.
+func (m *AccessMutation) ResetCheckOut() {
+	m.check_out = nil
+	delete(m.clearedFields, access.FieldCheckOut)
+}
+
 // Where appends a list predicates to the AccessMutation builder.
 func (m *AccessMutation) Where(ps ...predicate.Access) {
 	m.predicates = append(m.predicates, ps...)
@@ -169,7 +369,22 @@ func (m *AccessMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AccessMutation) Fields() []string {
-	fields := make([]string, 0, 0)
+	fields := make([]string, 0, 5)
+	if m.create_time != nil {
+		fields = append(fields, access.FieldCreateTime)
+	}
+	if m.update_time != nil {
+		fields = append(fields, access.FieldUpdateTime)
+	}
+	if m.name != nil {
+		fields = append(fields, access.FieldName)
+	}
+	if m.check_in != nil {
+		fields = append(fields, access.FieldCheckIn)
+	}
+	if m.check_out != nil {
+		fields = append(fields, access.FieldCheckOut)
+	}
 	return fields
 }
 
@@ -177,6 +392,18 @@ func (m *AccessMutation) Fields() []string {
 // return value indicates that this field was not set, or was not defined in the
 // schema.
 func (m *AccessMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case access.FieldCreateTime:
+		return m.CreateTime()
+	case access.FieldUpdateTime:
+		return m.UpdateTime()
+	case access.FieldName:
+		return m.Name()
+	case access.FieldCheckIn:
+		return m.CheckIn()
+	case access.FieldCheckOut:
+		return m.CheckOut()
+	}
 	return nil, false
 }
 
@@ -184,6 +411,18 @@ func (m *AccessMutation) Field(name string) (ent.Value, bool) {
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
 func (m *AccessMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case access.FieldCreateTime:
+		return m.OldCreateTime(ctx)
+	case access.FieldUpdateTime:
+		return m.OldUpdateTime(ctx)
+	case access.FieldName:
+		return m.OldName(ctx)
+	case access.FieldCheckIn:
+		return m.OldCheckIn(ctx)
+	case access.FieldCheckOut:
+		return m.OldCheckOut(ctx)
+	}
 	return nil, fmt.Errorf("unknown Access field %s", name)
 }
 
@@ -192,6 +431,41 @@ func (m *AccessMutation) OldField(ctx context.Context, name string) (ent.Value, 
 // type.
 func (m *AccessMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case access.FieldCreateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateTime(v)
+		return nil
+	case access.FieldUpdateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateTime(v)
+		return nil
+	case access.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case access.FieldCheckIn:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCheckIn(v)
+		return nil
+	case access.FieldCheckOut:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCheckOut(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Access field %s", name)
 }
@@ -213,13 +487,19 @@ func (m *AccessMutation) AddedField(name string) (ent.Value, bool) {
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
 func (m *AccessMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
 	return fmt.Errorf("unknown Access numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *AccessMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(access.FieldCheckOut) {
+		fields = append(fields, access.FieldCheckOut)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -232,12 +512,34 @@ func (m *AccessMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *AccessMutation) ClearField(name string) error {
+	switch name {
+	case access.FieldCheckOut:
+		m.ClearCheckOut()
+		return nil
+	}
 	return fmt.Errorf("unknown Access nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
 func (m *AccessMutation) ResetField(name string) error {
+	switch name {
+	case access.FieldCreateTime:
+		m.ResetCreateTime()
+		return nil
+	case access.FieldUpdateTime:
+		m.ResetUpdateTime()
+		return nil
+	case access.FieldName:
+		m.ResetName()
+		return nil
+	case access.FieldCheckIn:
+		m.ResetCheckIn()
+		return nil
+	case access.FieldCheckOut:
+		m.ResetCheckOut()
+		return nil
+	}
 	return fmt.Errorf("unknown Access field %s", name)
 }
 

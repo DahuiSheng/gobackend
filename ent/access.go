@@ -5,6 +5,7 @@ package ent
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/DahuiSheng/gobackend/ent/access"
@@ -12,9 +13,19 @@ import (
 
 // Access is the model entity for the Access schema.
 type Access struct {
-	config
+	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// CreateTime holds the value of the "create_time" field.
+	CreateTime time.Time `json:"create_time,omitempty"`
+	// UpdateTime holds the value of the "update_time" field.
+	UpdateTime time.Time `json:"update_time,omitempty"`
+	// Name holds the value of the "name" field.
+	Name string `json:"name,omitempty"`
+	// CheckIn holds the value of the "check_in" field.
+	CheckIn time.Time `json:"check_in,omitempty"`
+	// CheckOut holds the value of the "check_out" field.
+	CheckOut *time.Time `json:"check_out,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -24,6 +35,10 @@ func (*Access) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case access.FieldID:
 			values[i] = new(sql.NullInt64)
+		case access.FieldName:
+			values[i] = new(sql.NullString)
+		case access.FieldCreateTime, access.FieldUpdateTime, access.FieldCheckIn, access.FieldCheckOut:
+			values[i] = new(sql.NullTime)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Access", columns[i])
 		}
@@ -45,6 +60,37 @@ func (a *Access) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			a.ID = int(value.Int64)
+		case access.FieldCreateTime:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+			} else if value.Valid {
+				a.CreateTime = value.Time
+			}
+		case access.FieldUpdateTime:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field update_time", values[i])
+			} else if value.Valid {
+				a.UpdateTime = value.Time
+			}
+		case access.FieldName:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field name", values[i])
+			} else if value.Valid {
+				a.Name = value.String
+			}
+		case access.FieldCheckIn:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field check_in", values[i])
+			} else if value.Valid {
+				a.CheckIn = value.Time
+			}
+		case access.FieldCheckOut:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field check_out", values[i])
+			} else if value.Valid {
+				a.CheckOut = new(time.Time)
+				*a.CheckOut = value.Time
+			}
 		}
 	}
 	return nil
@@ -72,7 +118,23 @@ func (a *Access) Unwrap() *Access {
 func (a *Access) String() string {
 	var builder strings.Builder
 	builder.WriteString("Access(")
-	builder.WriteString(fmt.Sprintf("id=%v", a.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", a.ID))
+	builder.WriteString("create_time=")
+	builder.WriteString(a.CreateTime.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("update_time=")
+	builder.WriteString(a.UpdateTime.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("name=")
+	builder.WriteString(a.Name)
+	builder.WriteString(", ")
+	builder.WriteString("check_in=")
+	builder.WriteString(a.CheckIn.Format(time.ANSIC))
+	builder.WriteString(", ")
+	if v := a.CheckOut; v != nil {
+		builder.WriteString("check_out=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
 	builder.WriteByte(')')
 	return builder.String()
 }
