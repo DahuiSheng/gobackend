@@ -1,1 +1,1 @@
-CREATE DATABASE Valloon;
+CREATE DATABASE valloon;
