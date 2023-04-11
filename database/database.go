@@ -1,9 +1,12 @@
-package main
+package database
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/DahuiSheng/gobackend/ent"
+	_ "github.com/lib/pq"
 )
 
 // 変数の定義：名前と型
@@ -13,10 +16,11 @@ var (
 )
 
 func init() {
-	client, err = ent.Open("postgres", "host=<host> port=<port> user=<user> dbname=<database> password=<pass>")
+	client, err = ent.Open("postgres", os.Getenv("DB_DSN"))
 	if err != nil {
 		log.Fatalf("failed opening connection to postgres: %v", err)
 	}
+	fmt.Println("接続しました")
 	defer client.Close()
 }
 
