@@ -1,9 +1,8 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/DahuiSheng/gobackend/database"
+	"github.com/DahuiSheng/gobackend/router"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,10 +11,9 @@ func main() {
 	client := database.GetClient()
 	println(client)
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+
+	// gobackendにおけるrouterを参照
+	// rは、router ginEngineに入れている
+	router.Router(r)
 	r.Run()
 }
