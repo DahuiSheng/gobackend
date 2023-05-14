@@ -16,7 +16,8 @@ func (ExitController) ExitPost(c *gin.Context) {
 
 // structを定義する
 type ExitPUTReqBody struct {
-	Id   int    `json:"id"`
+	Id int `json:"id"`
+	// デフォルトでもunknownが代入される
 	Name string `json:"name"`
 }
 
