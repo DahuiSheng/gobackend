@@ -9,7 +9,7 @@ type ExitController struct{}
 func (ExitController) ExitPost(c *gin.Context) {
 
 	c.JSON(200, gin.H{
-		"enter_time": "2020-01-01 00:00:00",
-		"name":       "DaikiMori",
+		"id":   "12345",
+		"name": "DaikiMori",
 	})
 }
