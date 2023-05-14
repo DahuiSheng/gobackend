@@ -15,5 +15,5 @@ func (EnterController) EnterPut(c *gin.Context) {
 
 // structを定義する
 type EnterPOSTReqBody struct {
-	Name string
+	Name string `json:"name"`
 }
