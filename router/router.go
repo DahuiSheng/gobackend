@@ -13,7 +13,3 @@ func Router(router *gin.Engine) {
 	ExitController := ExitController.ExitController{}
 	router.POST("/exit", ExitController.ExitPost)
 }
-
-type ExitPUTResBody struct {
-	Name
-}

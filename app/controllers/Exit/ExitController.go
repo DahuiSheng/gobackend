@@ -13,3 +13,16 @@ func (ExitController) ExitPost(c *gin.Context) {
 		"name": "DaikiMori",
 	})
 }
+
+// structを定義する
+type ExitPUTReqBody struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+type ExitPUTResBody struct {
+	Id       int    `json:"id"`
+	Name     string `json:"name"`
+	CheckIn  string `json:"check_in"`
+	CheckOut string `json:"check_out"`
+}

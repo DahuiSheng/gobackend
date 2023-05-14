@@ -17,3 +17,7 @@ func (EnterController) EnterPut(c *gin.Context) {
 type EnterPOSTReqBody struct {
 	Name string `json:"name"`
 }
+
+type EnterPOSTResBody struct {
+	Id int `json:"id"`
+}
