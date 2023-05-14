@@ -8,8 +8,8 @@ type EnterController struct{}
 // httpのリクエストの一連の流れを、Contextが保持する
 func (EnterController) EnterPut(c *gin.Context) {
 
-	// :-は、代入と型定義を一緒に行なっている
-	var json := EnterPOSTReqBody
+	// :=は、代入と型定義を一緒に行なっている
+	json := EnterPOSTReqBody{}
 
 	c.JSON(200, gin.H{
 		"name": "DaikiMori",
